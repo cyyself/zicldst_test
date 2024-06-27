@@ -3,16 +3,16 @@
 
 long load_long(long *p) {
     long res;
-    asm volatile(".insn i 0b0001011, 0b011, %0, 0(%1)"
+    asm volatile(".insn i 0b0001011, 0b011, %0, %1"
                     : "=r"(res)
-                    : "r"(p));
+                    : "m"(*p));
     return res;
 }
 
 void store_long(long *p, long val) {
-    asm volatile(".insn s 0b0101011, 0b011, %0, 0(%1)"
-                    :
-                    : "r"(val), "r"(p));
+    asm volatile(".insn s 0b0101011, 0b011, %1, %0"
+                    : "=m"(*p)
+                    : "r"(val));
 }
 
 int main() {
